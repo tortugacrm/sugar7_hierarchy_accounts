@@ -43,6 +43,21 @@ class hierarchyApi extends SugarApi
                 //long help to be displayed in the help documentation
                 'longHelp' => '',
             ),
+
+             'GetHierarchy2Endpoint' => array(
+                //request type
+                'reqType' => 'GET',
+                //endpoint path
+                'path' => array('hierarchy','contact'),
+                //endpoint variables
+                'pathVars' => array('', '', 'data'),
+                //method to call
+                'method' => 'hierarchy_contact',
+                //short help string to be displayed in the help documentation
+                'shortHelp' => 'Dashlet showing the hierarchy for a contact',
+                //long help to be displayed in the help documentation
+                'longHelp' => '',
+            ),
                            
          );
     }
@@ -67,7 +82,7 @@ class hierarchyApi extends SugarApi
 		
 		// go to the top of the hierarchy
 		while (true) {
-			$sql = "select parent_id from accounts where id='$accountid'";
+			$sql = "select parent_id from accounts where id='$accountid' and deleted=0";
 			$result = $GLOBALS["db"]->query($sql);
 			$row = $GLOBALS["db"]->fetchByAssoc($result);
 			if (isset($row['parent_id'])) 
@@ -76,7 +91,7 @@ class hierarchyApi extends SugarApi
 				break;
 		}
 		
-		$sql = "select name from accounts where id='$accountid'";
+		$sql = "select name from accounts where id='$accountid' and deleted=0";
 		$result = $GLOBALS["db"]->query($sql);
 		$row = $GLOBALS["db"]->fetchByAssoc($result);
 		$hierarchy = array();
@@ -93,7 +108,7 @@ class hierarchyApi extends SugarApi
 	}
 	
 	private function get_account_children1($accountid, $hierarchy) {
-		$sql = "select id, name from accounts where parent_id = '$accountid'";
+		$sql = "select id, name from accounts where parent_id = '$accountid' and deleted=0";
 		$result = $GLOBALS["db"]->query($sql);
 		$r = array();
 		$i=0;
@@ -115,7 +130,76 @@ class hierarchyApi extends SugarApi
 		}
 		return($children);
     }
-    
+
+	// #######################################
+	// ############# hierarchy_contact #######
+	// #######################################
+    public function hierarchy_contact ($api, $args)
+    {
+		if (!isset($args['contactid'])) { 
+			return '[]'; 
+			exit; 
+		}
+		//$accountid = $args['accountid'];
+		self::$idx = 1;
+		//$accountid = preg_replace('/[^0-9a-Z-]/', '', $args['accountid']);
+		$contactid = preg_replace('/[^a-z0-9-]/i', '', $args['contactid']);
+		if ($contactid=='') { 
+			return '[error]'; 
+			exit; 
+		}
+		
+		// go to the top of the hierarchy
+		while (true) {
+			$sql = "select reports_to_id from contacts where id='$contactid' and deleted=0";
+			$result = $GLOBALS["db"]->query($sql);
+			$row = $GLOBALS["db"]->fetchByAssoc($result);
+			if (isset($row['reports_to_id'])) 
+				$contactid = $row['reports_to_id'];
+			else
+				break;
+		}
+		
+		$sql = "select concat(first_name,' ',last_name) name from contacts where id='$contactid' and deleted=0";
+		$result = $GLOBALS["db"]->query($sql);
+		$row = $GLOBALS["db"]->fetchByAssoc($result);
+		$hierarchy = array();
+		$hierarchy['id'] = self::$idx;
+		$hierarchy['ida'] = $contactid;
+		//$hierarchy['name'] = $row['name'];
+		$hierarchy['name'] = '<a href="#Contacts/'.$row['id'].'">' . $row['name'] . '</a>';
+		$hierarchy['title'] = '';
+		$hierarchy['image'] = '';
+		$hierarchy['x0'] = 0;
+		$hierarchy['y0'] = 0;
+		$hierarchy['children'] = self::get_contact_children1($contactid, $hierarchy['children']);
+		return($hierarchy);
+	}
+	
+	private function get_contact_children1($contactid, $hierarchy) {
+		$sql = "select id, concat(first_name,' ',last_name) name,picture from contacts where reports_to_id = '$contactid' and deleted=0";
+		$result = $GLOBALS["db"]->query($sql);
+		$r = array();
+		$i=0;
+		$children = array();
+		while($row = $GLOBALS["db"]->fetchByAssoc($result)) {
+			self::$idx = self::$idx + 1;
+			$h['id'] = self::$idx;
+			$h['ida'] = $row['id'];
+			//$h['name'] = $row['name'];
+			$h['name'] = '<a href="#Contacts/'.$row['id'].'">' . $row['name'] . '</a>';
+			$h['title'] = '';
+			$h['image'] = '';
+			if ($row['picture'] != '') $h['image'] = 'rest/v10/Contacts/' . $row['id'] . '/file/picture?format=sugar-html-json&platform=base&_hash=' . $row['picture'];			
+			//$h['x0'] = 0;
+			//$h['y0'] = 0;
+			$hierarchy[$i++] = $h;
+			$GLOBALS['log']->debug('get_contact_children: '.$h['name']);
+			$h['children'] = self::get_contact_children1($h['ida'], $h['children']);
+			array_push($children, $h);
+		}
+		return($children);
+    }
     
 }
 

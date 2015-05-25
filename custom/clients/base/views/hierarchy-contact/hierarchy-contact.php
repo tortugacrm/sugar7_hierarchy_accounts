@@ -18,12 +18,36 @@
  * Author: Olivier Nepomiachty SugarCRM
  */
  
-$app_strings['LBL_DASHLET_HIERARCHY_ACCOUNT_NAME'] = 'Account hierarchy';
-$app_strings['LBL_DASHLET_HIERARCHY_ACCOUNT_NAME_DESC'] = 'Chart presenting the account hierarchy';
-
-$app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME'] = 'Contact hierarchy';
-$app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME_DESC'] = 'Chart presenting the contact hierarchy';
+if(!defined('sugarEntry'))define('sugarEntry', true);
 
 
+$viewdefs['base']['view']['hierarchy-contact'] = array(
 
+    'dashlets' => array(
+        array(
+            'label' => 'LBL_DASHLET_HIERARCHY_CONTACT_NAME',
+            'description' => 'LBL_DASHLET_HIERARCHY_CONTACT_NAME_DESC',
+            
+            'config' => array(
+            ),
 
+            'preview' => array(
+            ),
+            
+            'filter' => array(
+                'module' => array(
+                    'Contacts', 
+                ),
+                'view' => array(
+					'record',
+				),
+            ),
+
+            
+        ),
+    ),
+    
+    'config' => array(
+    ),
+    
+);

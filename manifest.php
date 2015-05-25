@@ -38,9 +38,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'Accounts Hierarchy Dashlet',
-  'published_date' => '2015-05-22 06:00:00',
+  'published_date' => '2015-05-25 06:00:00',
   'type' => 'module',
-  'version' => '1.0.0.0',
+  'version' => '1.1.1.1',
   'remove_tables' => 'prompt',
 );
 
@@ -59,14 +59,19 @@ $installdefs = array (
       'from' => '<basepath>/custom/clients/base/views/hierarchy-account',
       'to' => 'custom/clients/base/views/hierarchy-account',
     ),
-	// api
     1 => 
+    array (
+      'from' => '<basepath>/custom/clients/base/views/hierarchy-contact',
+      'to' => 'custom/clients/base/views/hierarchy-contact',
+    ),
+	// api
+    10 => 
     array (
       'from' => '<basepath>/custom/clients/base/api/hierarchyApi.php',
       'to' => 'custom/clients/base/api/hierarchyApi.php',
     ),
     // language
-    2 => 
+    20 => 
     array (
       'from' => '<basepath>/language/application/en_us.hierarchy_accounts.php',
       'to' => 'custom/Extension/application/Ext/Language/en_us.hierarchy_accounts.php',

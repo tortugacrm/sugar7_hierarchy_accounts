@@ -1,6 +1,6 @@
-<?php
+{{!
 /*
- * This file is part of the 'Accounts Hierarchy Dashlet'.
+ * This file is part of the 'hierarchy-account'.
  * Copyright [2015/5/22] [Olivier Nepomiachty - SugarCRM]
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,13 +17,9 @@
  * 
  * Author: Olivier Nepomiachty SugarCRM
  */
- 
-$app_strings['LBL_DASHLET_HIERARCHY_ACCOUNT_NAME'] = 'Account hierarchy';
-$app_strings['LBL_DASHLET_HIERARCHY_ACCOUNT_NAME_DESC'] = 'Chart presenting the account hierarchy';
 
-$app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME'] = 'Contact hierarchy';
-$app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME_DESC'] = 'Chart presenting the contact hierarchy';
+}}
 
-
-
-
+<div id="org_{{{this.cid}}}" class="nv-chart nv-chart-org nv-chart-texture">
+  <svg></svg>
+</div>

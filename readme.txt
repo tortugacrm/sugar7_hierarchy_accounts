@@ -1,10 +1,12 @@
 'Accounts Hierarchy Dashlet' module.
-Copyright [2015/5/22] [Olivier Nepomiachty - SugarCRM]
+Copyright [2015/5/25] [Olivier Nepomiachty - SugarCRM]
 
 
 1) SYNOPSIS
-Sugar 7 dashlet.
-Show in the intelligence Panel against the Account View the Account Hierarchy.
+Sugar 7.5 dashlet.
+Show in the intelligence Panel: 
+- the Account Hierarchy, against the Account View
+- the Contact Hierarchy, against the Contact View
 
 
 
