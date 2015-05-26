@@ -24,6 +24,7 @@ $app_strings['LBL_DASHLET_HIERARCHY_ACCOUNT_NAME_DESC'] = 'Chart presenting the 
 $app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME'] = 'Contact hierarchy';
 $app_strings['LBL_DASHLET_HIERARCHY_CONTACT_NAME_DESC'] = 'Chart presenting the contact hierarchy';
 
+$app_strings['LBL_DASHLET_HIERARCHY_ERROR_CIRCULAR'] = 'Error: Circular reference';
 
 
 

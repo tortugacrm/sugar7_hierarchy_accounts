@@ -38,9 +38,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'Accounts Hierarchy Dashlet',
-  'published_date' => '2015-05-25 06:00:00',
+  'published_date' => '2015-05-26 06:00:00',
   'type' => 'module',
-  'version' => '1.1.1.1',
+  'version' => '1.2.0.0',
   'remove_tables' => 'prompt',
 );
 

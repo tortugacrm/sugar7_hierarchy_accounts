@@ -25,3 +25,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Author: Olivier Nepomiachty SugarCRM
+
+
+3) CHANGE HISTORY
+
+- V1.2.0.0 2015/5/26
+Prevent circular references
+
+- V1.1.1.1 2015/5/25
+Contact Hierarchy
+
+- V1.0.0.0 2015/5/22
+Account Hierarchy

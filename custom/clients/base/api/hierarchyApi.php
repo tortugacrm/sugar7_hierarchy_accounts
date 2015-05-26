@@ -23,8 +23,7 @@ if(!defined('sugarEntry') || !sugarEntry) die('Not A Valid Entry Point');
  
 class hierarchyApi extends SugarApi
 {
-	public static $idx = 1;
-	
+	public static $idx = 1;	
 	
     public function registerApiRest()
     {
@@ -76,22 +75,32 @@ class hierarchyApi extends SugarApi
 		//$accountid = preg_replace('/[^0-9a-Z-]/', '', $args['accountid']);
 		$accountid = preg_replace('/[^a-z0-9-]/i', '', $args['accountid']);
 		if ($accountid=='') { 
-			return '[error]'; 
+			return array('error' => 'invalid id'); 
 			exit; 
 		}
 		
 		// go to the top of the hierarchy
+		// check if any circular reference
+		$circular_ref = false;	
+		$ids = array($accountid);	
 		while (true) {
-			$sql = "select parent_id from accounts where id='$accountid' and deleted=0";
+			$sql = "select name,parent_id from accounts where id='$accountid' and deleted=0";
 			$result = $GLOBALS["db"]->query($sql);
 			$row = $GLOBALS["db"]->fetchByAssoc($result);
-			if (isset($row['parent_id'])) 
+			if (isset($row['parent_id'])) {
 				$accountid = $row['parent_id'];
+				// circular reference?
+				if (in_array($accountid, $ids)) {
+					return array('circular_ref_error' => $row['name']); 
+					exit; 
+				}
+				array_push($ids, $accountid);
+			}
 			else
 				break;
 		}
 		
-		$sql = "select name from accounts where id='$accountid' and deleted=0";
+		$sql = "select id,name from accounts where id='$accountid' and deleted=0";
 		$result = $GLOBALS["db"]->query($sql);
 		$row = $GLOBALS["db"]->fetchByAssoc($result);
 		$hierarchy = array();
@@ -150,17 +159,27 @@ class hierarchyApi extends SugarApi
 		}
 		
 		// go to the top of the hierarchy
+		// check if any circular reference
+		$circular_ref = false;	
+		$ids = array($contactid);	
 		while (true) {
-			$sql = "select reports_to_id from contacts where id='$contactid' and deleted=0";
+			$sql = "select concat(first_name,' ',last_name) name, reports_to_id from contacts where id='$contactid' and deleted=0";
 			$result = $GLOBALS["db"]->query($sql);
 			$row = $GLOBALS["db"]->fetchByAssoc($result);
-			if (isset($row['reports_to_id'])) 
+			if (isset($row['reports_to_id'])) {
 				$contactid = $row['reports_to_id'];
+				// circular reference?
+				if (in_array($contactid, $ids)) {
+					return array('circular_ref_error' => $row['name']); 
+					exit; 
+				}
+				array_push($ids, $contactid);
+			}
 			else
 				break;
 		}
 		
-		$sql = "select concat(first_name,' ',last_name) name from contacts where id='$contactid' and deleted=0";
+		$sql = "select id,concat(first_name,' ',last_name) name from contacts where id='$contactid' and deleted=0";
 		$result = $GLOBALS["db"]->query($sql);
 		$row = $GLOBALS["db"]->fetchByAssoc($result);
 		$hierarchy = array();

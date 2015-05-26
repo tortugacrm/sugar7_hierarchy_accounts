@@ -22,7 +22,6 @@
     initDashlet: function () {		
         this.model.on("change:reports_to_id", this.loadData, this);
     },
-
     
     loadData: function (options) {
 	  var contactid = this.model.get("id");
@@ -53,6 +52,16 @@
                 if (this.disposed) {
                     return;
                 }
+                if (typeof (data.circular_ref_error) == 'string') {
+					console.log('# API call hierarchy/contact: error circular ref');
+					app.alert.show('error', {
+						level: 'error', 
+						title: app.lang.get('LBL_DASHLET_HIERARCHY_ERROR_CIRCULAR'), 
+						messages: data.circular_ref_error,
+						autoClose: false
+					});
+					return;
+				}
                 console.log('# API call hierarchy/contact success');
 				d3.select('#org_'+self.cid+' svg')
 					.datum(data)

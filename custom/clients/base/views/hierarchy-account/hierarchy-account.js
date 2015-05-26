@@ -1,5 +1,5 @@
 /*
- * This file is part of the 'Accounts Hierarchy Dashlet'.
+ * This file is part of the 'hierarchy-account'.
  * Copyright [2015/5/22] [Olivier Nepomiachty - SugarCRM]
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,8 @@
     plugins: ['Dashlet'],
         
     initDashlet: function () {		
+        this.model.on("change:parent_id", this.loadData, this);
     },
-
     
     loadData: function (options) {
 	  var accountid = this.model.get("id");
@@ -50,6 +50,16 @@
                 if (this.disposed) {
                     return;
                 }
+                if (typeof (data.circular_ref_error) == 'string') {
+					console.log('# API call hierarchy/account: error circular ref');
+					app.alert.show('error', {
+						level: 'error', 
+						title: app.lang.get('LBL_DASHLET_HIERARCHY_ERROR_CIRCULAR'), 
+						messages: data.circular_ref_error,
+						autoClose: false
+					});
+					return;
+				}
                 console.log('# API call hierarchy/account success');
 				d3.select('#org_'+self.cid+' svg')
 					.datum(data)
