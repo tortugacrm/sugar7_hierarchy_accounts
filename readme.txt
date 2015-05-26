@@ -29,6 +29,9 @@ Author: Olivier Nepomiachty SugarCRM
 
 3) CHANGE HISTORY
 
+- V1.2.1.0 2015/5/26
+Highlight the current record
+
 - V1.2.0.0 2015/5/26
 Prevent circular references
 

@@ -30,14 +30,21 @@
 	  nv.addGraph(function() {
 
 		var nodeRenderer = function(d) {
+			var node_style = '';
+			if (contactid == d.ida) node_style = 'style="border-style: solid; border-width: 2px; border-color: #fffd52;"';
+
 			if (!d.image || d.image === '')
-				d.image = '<i class="icon-user"></i>';
+				d.image = '<i class="icon-user" '+node_style+'></i>';
 			else 
-				d.image = '<img src="' + d.image + '" class="rep-avatar" />';
-			
-		  //return '<img src="custom/clients/base/views/hierarchy-account/img/' + d.image + '" class="rep-avatar" width="32" height="32"><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div>';
-		  return '<table><tr><td>' + d.image + '</td><td><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div></td></tr></table>';
+				//d.image = '<img src="' + d.image + '" class="rep-avatar" '+node_style+' />';
+				d.image = '<img src="' + d.image + '" class="avatar avatar-btn" '+node_style+' />';
+
+			//return '<img src="custom/clients/base/views/hierarchy-account/img/' + d.image + '" class="rep-avatar" width="32" height="32"><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div>';
+			return '<table><tr><td>' + d.image + '</td><td><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div></td></tr></table>';
 		};
+
+
+
 
 		var chart = nv.models.tree()
 			  .duration(500)
