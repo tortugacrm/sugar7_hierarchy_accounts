@@ -29,6 +29,9 @@ Author: Olivier Nepomiachty SugarCRM
 
 3) CHANGE HISTORY
 
+- V1.2.2.0 2015/5/26
+Fix. Forget to commit custom/clients/base/views/hierarchy-account/hierarchy-account.php in the previous release.
+
 - V1.2.1.0 2015/5/26
 Highlight the current record
 

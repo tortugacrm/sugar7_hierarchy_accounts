@@ -25,8 +25,8 @@ $viewdefs['base']['view']['hierarchy-account'] = array(
 
     'dashlets' => array(
         array(
-            'label' => 'LBL_DASHLET_HIERARCHY_NAME',
-            'description' => 'LBL_DASHLET_HIERARCHY_NAME_DESC',
+            'label' => 'LBL_DASHLET_HIERARCHY_ACCOUNT_NAME',
+            'description' => 'LBL_DASHLET_HIERARCHY_ACCOUNT_NAME_DESC',
             
             'config' => array(
             ),

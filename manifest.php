@@ -40,7 +40,7 @@ $manifest = array (
   'name' => 'Accounts Hierarchy Dashlet',
   'published_date' => '2015-05-26 08:00:00',
   'type' => 'module',
-  'version' => '1.2.1.0',
+  'version' => '1.2.2.0',
   'remove_tables' => 'prompt',
 );
 
