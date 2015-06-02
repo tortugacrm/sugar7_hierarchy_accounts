@@ -22,6 +22,27 @@
     initDashlet: function () {		
         this.model.on("change:reports_to_id", this.loadData, this);
     },
+
+    sugar_version_greater: function(v1,v2) {
+		// return true if current sugar version x1.x2 is greater than v1.v2
+		var x = app.metadata.getServerInfo().version.split('.');
+		if (parseInt(x[0]) > v1) return true;
+		if ((parseInt(x[0]) == v1)&&(parseInt(x[1]) > v2)) return true;
+		return false;
+	},    
+    
+    fa_icon: function(ico) {
+		/*
+		 7.5: <i class="icon-camera-retro"></i>
+		 7.6: <i class="fa fa-camera-retro">
+		 */
+		if (this.sugar_version_greater(7,5)) { // 7.6
+			return 'fa fa-' + ico;
+		}
+		else { // 7.5
+			return 'icon-' + ico;
+		}
+	},
     
     loadData: function (options) {
 	  var contactid = this.model.get("id");
@@ -34,7 +55,7 @@
 			if (contactid == d.ida) node_style = 'style="border-style: solid; border-width: 2px; border-color: #fffd52;"';
 
 			if (!d.image || d.image === '')
-				d.image = '<i class="icon-user" '+node_style+'></i>';
+				d.image = '<i class="' + self.fa_icon('user') + '" '+node_style+'></i>';
 			else 
 				//d.image = '<img src="' + d.image + '" class="rep-avatar" '+node_style+' />';
 				d.image = '<img src="' + d.image + '" class="avatar avatar-btn" '+node_style+' />';

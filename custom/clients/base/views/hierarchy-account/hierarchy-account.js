@@ -23,6 +23,27 @@
         this.model.on("change:parent_id", this.loadData, this);
     },
     
+    sugar_version_greater: function(v1,v2) {
+		// return true if current sugar version x1.x2 is greater than v1.v2
+		var x = app.metadata.getServerInfo().version.split('.');
+		if (parseInt(x[0]) > v1) return true;
+		if ((parseInt(x[0]) == v1)&&(parseInt(x[1]) > v2)) return true;
+		return false;
+	},    
+    
+    fa_icon: function(ico) {
+		/*
+		 7.5: <i class="icon-camera-retro"></i>
+		 7.6: <i class="fa fa-camera-retro">
+		 */
+		if (this.sugar_version_greater(7,5)) { // 7.6
+			return 'fa fa-' + ico;
+		}
+		else { // 7.5
+			return 'icon-' + ico;
+		}
+	},
+    
     loadData: function (options) {
 	  var accountid = this.model.get("id");
 	  var self = this;
@@ -39,7 +60,7 @@
 				d.image = '<img src="' + d.image + '" class="avatar avatar-btn" '+node_style+' />';
 			*/
 			//return '<img src="custom/clients/base/views/hierarchy-account/img/' + d.image + '" class="rep-avatar" width="32" height="32"><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div>';
-			return '<table><tr><td><i class="icon-building" '+node_style+'></i></td><td><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div></td></tr></table>';
+			return '<table><tr><td><i class="' + self.fa_icon('building') + '" '+node_style+'></i></td><td><div class="rep-name">' + d.name + '</div><div class="rep-title">' + d.title + '</div></td></tr></table>';
 		};		
 		
 

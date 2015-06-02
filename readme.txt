@@ -29,6 +29,9 @@ Author: Olivier Nepomiachty SugarCRM
 
 3) CHANGE HISTORY
 
+- V1.2.3.0 2015/06/03
+Fix. font-awesome changes to support Sugar 7.5 & Sugar 7.6
+
 - V1.2.2.0 2015/5/26
 Fix. Forget to commit custom/clients/base/views/hierarchy-account/hierarchy-account.php in the previous release.
 
